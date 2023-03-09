@@ -16,6 +16,9 @@ for topic in soup.find_all("h3"):
 
     info = topic.find_next_sibling("p")
     data.append(info.text)
+# print(headings)
+# print()
+# print(data)
 
 lists_to_join = zip(headings, data)
 joint_list = list(lists_to_join)
@@ -23,11 +26,6 @@ joint_list = list(lists_to_join)
 
 country_dict = dict(joint_list)
 
-with open("country_dict.json", encoding="UTF-8") as country_dict_list:
-    country_dict_list = country_dict_list.read()
-print(f"data:{country_dict_list}")
-
-country_dict_list = json.loads(country_dict_list)
 
 keys = {
     "US State Dept Travel Advisory",
@@ -41,4 +39,11 @@ keys = {
     "Traditional Cuisine",
 }
 new_dict = {key: value for key, value in country_dict.items() if key in keys}
-print(new_dict)
+# print(new_dict)
+
+with open("country_dict_df.json", encoding="UTF-8") as country_dict_list:
+    country_dict_list = country_dict_list.read()
+# print(f"data:{country_dict_list}")
+country_dict_list = json.loads(country_dict_list)
+df = pd.DataFrame(country_dict_list)
+print(df)
