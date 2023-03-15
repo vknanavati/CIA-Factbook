@@ -15,6 +15,7 @@ page = requests.get(URL, timeout=10)
 soup = BeautifulSoup(page.content, "html.parser")
 soup.prettify()
 
+
 name_list = []
 
 
@@ -22,9 +23,11 @@ def hostel_names_list():
     hostel_name = soup.find("h1")
     hostel_name = hostel_name.text.strip()
     name_list.append(hostel_name)
+    return name_list
 
 
-print(f"\nHostel Name: {name_list}")
+# print(f"\nHostel Name: {name_list}")
+compiled_names = hostel_names_list()
 
 hostel_scores = []
 composite_hostel_scores = []
@@ -37,15 +40,18 @@ def hostel_scores_list():
         breakdown_score = breakdown_score.text.strip()
         hostel_scores.append(breakdown_score)
 
-    print(f"\nHostel scores: {hostel_scores}")
+    # print(f"\nHostel scores: {hostel_scores}")
 
     composite_hostel_scores.append(hostel_scores)
+    return composite_hostel_scores
 
-    print(f"\nComposite scores: {composite_hostel_scores}")
+
+print(f"\nComposite scores: {composite_hostel_scores}")
+composite_scores = hostel_scores_list()
 
 
-def hostel_dictionary():
-    lists_to_join = zip(name_list, composite_hostel_scores)
+def hostel_dictionary(keys: list, values: list):
+    lists_to_join = zip(keys, values)
     # print(f"\nLists to join: {lists_to_join}\n")
     specific_ratings = list(lists_to_join)
     # print(f"\nSpecific ratings: {specific_ratings}\n")
@@ -53,8 +59,21 @@ def hostel_dictionary():
     return ratings_dict
 
 
-complete_dictionary = hostel_dictionary
+complete_dictionary = hostel_dictionary(name_list, composite_hostel_scores)
 print(f"\nRatings Dictionary: {complete_dictionary}\n")
+
+# def hostel_dictionary(keys: list, values: list):
+#     lists_to_join = zip(name_list, composite_hostel_scores)
+#     # print(f"\nLists to join: {lists_to_join}\n")
+#     specific_ratings = list(lists_to_join)
+#     # print(f"\nSpecific ratings: {specific_ratings}\n")
+#     ratings_dict = dict(specific_ratings)
+#     return ratings_dict
+
+
+# complete_dictionary = hostel_dictionary
+# print(f"\nRatings Dictionary: {complete_dictionary}\n")
+
 
 
 # def compare_hostels():
