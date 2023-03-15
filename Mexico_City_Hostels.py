@@ -9,62 +9,58 @@ URL = [
 ]
 
 
+# for url in range(0, 2):
+page = requests.get(URL, timeout=10)
+# page = requests.get(URL[url], timeout=10)
+soup = BeautifulSoup(page.content, "html.parser")
+soup.prettify()
+
 name_list = []
 
 
-def name_of_hostel():
-    for url in range(0, 2):
-        page = requests.get(URL[url], timeout=10)
-        soup = BeautifulSoup(page.content, "html.parser")
-        soup.prettify()
-        hostel_name = soup.find("h1")
-        hostel_name = hostel_name.text.strip()
-        name_list.append(hostel_name)
-
-    print(f"\nHostel Name: {name_list}")
+def hostel_names_list():
+    hostel_name = soup.find("h1")
+    hostel_name = hostel_name.text.strip()
+    name_list.append(hostel_name)
 
 
-name_of_hostel()
+print(f"\nHostel Name: {name_list}")
+
+hostel_scores = []
+composite_hostel_scores = []
 
 
-hostel_rating = soup.find("div", class_="score orange big")
-hostel_rating = hostel_rating.text.strip()
-print(f"\nHostel Rating: {hostel_rating}")
+def hostel_scores_list():
+    breakdown_scores = soup.find_all("div", class_="rating-score")
 
-hostel_reviews = soup.find("div", class_="reviews")
-hostel_reviews = hostel_reviews.text.strip()
+    for breakdown_score in breakdown_scores:
+        breakdown_score = breakdown_score.text.strip()
+        hostel_scores.append(breakdown_score)
 
-hostel_reviews = str(hostel_reviews)
-# print(f"string version is: {hostel_reviews}")
+    print(f"\nHostel scores: {hostel_scores}")
 
-remove_words = ["Total", "Reviews"]
+    composite_hostel_scores.append(hostel_scores)
 
-for word in remove_words:
-    hostel_reviews = hostel_reviews.replace(word, "")
-print(f"\nNumber of Reviews: {hostel_reviews}")
+    print(f"\nComposite scores: {composite_hostel_scores}")
 
-# hostel_reviews = hostel_reviews.replace("")
 
-ratings_breakdown = soup.find_all("div", class_="rating-label")
+def hostel_dictionary():
+    lists_to_join = zip(name_list, composite_hostel_scores)
+    # print(f"\nLists to join: {lists_to_join}\n")
+    specific_ratings = list(lists_to_join)
+    # print(f"\nSpecific ratings: {specific_ratings}\n")
+    ratings_dict = dict(specific_ratings)
+    return ratings_dict
 
-headings = []
-for rating_breakdown in ratings_breakdown:
-    rating_breakdown = rating_breakdown.text.strip()
-    headings.append(rating_breakdown)
-print(f"\nList of headings: {headings}")
 
-breakdown_scores = soup.find_all("div", class_="rating-score")
+complete_dictionary = hostel_dictionary
+print(f"\nRatings Dictionary: {complete_dictionary}\n")
 
-scores = []
 
-for breakdown_score in breakdown_scores:
-    breakdown_score = breakdown_score.text.strip()
-    scores.append(breakdown_score)
-print(f"\nList of scores: {scores}")
-
-lists_to_join = zip(headings, scores)
-specific_ratings = list(lists_to_join)
-ratings_dict = dict(specific_ratings)
-print(f"\nRatings Dictionary: {ratings_dict}\n")
-
-sleep(randint(2, 10))
+# def compare_hostels():
+#     for url in range(0,2):
+# name function
+# list of specific ratings
+# create dictionary
+# data frame
+# csv
