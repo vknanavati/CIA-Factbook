@@ -10,10 +10,6 @@ URL = [
 
 
 # for url in range(0, 2):
-page = requests.get(URL, timeout=10)
-# page = requests.get(URL[url], timeout=10)
-soup = BeautifulSoup(page.content, "html.parser")
-soup.prettify()
 
 
 name_list = []
@@ -59,8 +55,22 @@ def hostel_dictionary(keys: list, values: list):
     return ratings_dict
 
 
-complete_dictionary = hostel_dictionary(name_list, composite_hostel_scores)
+complete_dictionary = hostel_dictionary(compiled_names, composite_scores)
 print(f"\nRatings Dictionary: {complete_dictionary}\n")
+
+
+def compare_hostels():
+    for url in range(0, 2):
+        page = requests.get(URL[url], timeout=10)
+        soup = BeautifulSoup(page.content, "html.parser")
+        soup.prettify()
+        hostel_names_list()
+        hostel_scores_list()
+        hostel_dictionary(compiled_names, composite_scores)
+
+
+compare_hostels()
+
 
 # def hostel_dictionary(keys: list, values: list):
 #     lists_to_join = zip(name_list, composite_hostel_scores)
@@ -73,7 +83,6 @@ print(f"\nRatings Dictionary: {complete_dictionary}\n")
 
 # complete_dictionary = hostel_dictionary
 # print(f"\nRatings Dictionary: {complete_dictionary}\n")
-
 
 
 # def compare_hostels():
