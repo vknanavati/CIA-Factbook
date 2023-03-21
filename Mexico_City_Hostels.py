@@ -66,10 +66,16 @@ for url in range(0, 49):
 
     sleep(randint(2, 10))
 
+no_ratings_dict = {key: value for (key, value) in ratings_dict.items() if not value}
+
 ratings_dict = {key: value for (key, value) in ratings_dict.items() if value}
-print(ratings_dict)
+
+no_rating_list = list(no_ratings_dict.keys())
+no_rating_string = ", ".join([str(elem) for elem in no_rating_list])
+
 
 print(f"\nComplete Dictionary: {ratings_dict}\n")
+print(f"Unrated hostels: {no_rating_string}")
 # print(f"\nSpecific scores list: {specific_scores}\n")
 # print(f"\nHostel Name List: {name_list}\n")
 # print(f"\nComposite scores: {composite_hostel_scores}\n")
