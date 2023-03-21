@@ -26,11 +26,11 @@ for url in range(0, 2):
         for result in results:
             link_url = result["href"]
             links_list.append(link_url)
-# print(links_list)
-# print(links_list)
+# print(f"\nList of links: {links_list}\n")
+url_count = len(links_list)
+print(f"\nLength of list: {url_count}")
 
 name_list = []
-hostel_scores = []
 composite_hostel_scores = []
 
 for url in range(0, 49):
@@ -42,18 +42,13 @@ for url in range(0, 49):
     hostel_name = soup.find("h1")
     hostel_name = hostel_name.text.strip()
     name_list.append(hostel_name)
-    # print(f"\nHostel Name List: {name_list}\n")
 
     breakdown_scores = soup.find_all("div", class_="rating-score")
 
-    for breakdown_score in breakdown_scores:
-        breakdown_score = breakdown_score.text.strip()
-        hostel_scores.append(breakdown_score)
-    # print(f"\nList of scores: {hostel_scores}")
-
-    composite_hostel_scores.append(hostel_scores)
-
-    # print(f"\nComposite scores: {composite_hostel_scores}")
+    specific_scores = [
+        breakdown_score.text.strip() for breakdown_score in breakdown_scores
+    ]
+    composite_hostel_scores.append(specific_scores)
 
     lists_to_join = zip(name_list, composite_hostel_scores)
     # print(f"\nLists to join: {lists_to_join}\n")
@@ -61,11 +56,24 @@ for url in range(0, 49):
     # print(f"\nSpecific ratings: {specific_ratings}\n")
     ratings_dict = dict(specific_ratings)
 
-    # print(f"\nComplete Dictionary: {ratings_dict}\n")
+    dict_length = len(ratings_dict)
+
     seconds = randint(2, 10)
     sleep(seconds)
-    print(f"\nI waited {seconds} seconds\n")
-    # sleep(randint(2, 10))
+
+    print(f"\nProgress: {dict_length}/{url_count} ")
+    print(f"I waited {seconds} seconds\n")
+
+    sleep(randint(2, 10))
+
+ratings_dict = {key: value for (key, value) in ratings_dict.items() if value}
+print(ratings_dict)
+
+print(f"\nComplete Dictionary: {ratings_dict}\n")
+# print(f"\nSpecific scores list: {specific_scores}\n")
+# print(f"\nHostel Name List: {name_list}\n")
+# print(f"\nComposite scores: {composite_hostel_scores}\n")
+
 
 df = pd.DataFrame(ratings_dict)
 # print(df)
@@ -76,3 +84,4 @@ print("\nCSV created! YAY!!\n")
 # 1. automize populating URL addresses from each page that lists the hostels of that city
 # 2. Based on the total number of hostels for each city the range of the URL list should change
 # 3. PANDAS: Make bar graphs !!!! :)
+# 4. User should enter city and the app should automatically scrape hostel website names instead of having to manually put in the website links pages
